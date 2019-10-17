@@ -40,6 +40,13 @@ public class BattleShip {
 		int row = letter - 'A';
 		int col = number - 1;
 		
+		if (matrix[row][col] == SHIP_SYMBOL) {
+			matrix[row][col] = SUNK_SHIP_SYMBOL;
+		} else {
+			if (matrix[row][col] == EMPTY_SYMBOL) {
+				matrix[row][col] = WATER_SYMBOL;
+			}
+		}
 		//if (matrix[row][col] == ...)
 		
 	}
