@@ -10,7 +10,7 @@ public class BattleShip {
 	public static final int EMPTY_SYMBOL = '.';
 
 	public static final int MAX_SHOTS = 20;
-	public static final int NUM_SHIPS = 10;
+	public static final int NUM_SHIPS = 2;
 	public static final int DIMENSION = 8;	
 	static char[][] matrix = new char[DIMENSION][DIMENSION];
 	static boolean gameOver;
@@ -18,10 +18,11 @@ public class BattleShip {
 	static int remainingShots;
 	static int sunkShipCounter;
 	
+	static char letter;
+	static int number;
+	
 	public static void main(String[] args) {
-		
-		char letter;
-		int number;
+
 		Scanner input = new Scanner(System.in);
 			     	     	
 		gameOver = false;
@@ -32,10 +33,7 @@ public class BattleShip {
 	    	     
 	    while(!gameOver) {
 	    	printMatrix(true);
-	    	System.out.println("Enter row (Letter):");
-	    	letter = input.next().charAt(0);
-	    	System.out.println("Enter column (Number): ");
-	    	number = input.nextInt();
+	    	askCoordinates(input);
 	    	shoot(letter, number);
 	    	checkGameOver();
 	    }
@@ -43,8 +41,52 @@ public class BattleShip {
 	    showResult();
 	     
 	}
+
+	private static void askCoordinates(Scanner input) {
+		letter = 'º';
+		boolean firstValue = true;
+		while (!letterInGoodRange(firstValue)) {
+			System.out.println("Enter row (Letter):");
+			letter = input.next().toUpperCase().charAt(0);
+			firstValue = false;
+		}
+		number = -1;
+		firstValue = true;
+		while (!numberInGoodRange(firstValue)) {
+			System.out.println("Enter column (Number): ");
+			number = input.nextInt();
+			firstValue = false;
+		}
+	}
 	
+	private static boolean numberInGoodRange(boolean first) {
+		
+		if (number < 1 || number > DIMENSION) {
+			if (!first) {
+				System.err.println("Number not valid");
+				System.out.println();
+			}
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	private static boolean letterInGoodRange(boolean first) {
+		
+		if (letter < 'A' || letter > 'A' + DIMENSION - 1) {
+			if (!first) {
+				System.err.println("Letter not valid");
+				System.out.println();
+			}
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	private static void showResult() {
+		printMatrix(false);
 		
 		if (sunkShipCounter >= NUM_SHIPS) {
 			System.out.println("You WIN !!!");
